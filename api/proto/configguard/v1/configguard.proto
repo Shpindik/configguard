@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package configguard.v1;
+
+option go_package = "configguard/internal/genproto/configguard/v1;configguardv1";
+
+// ScannerService проверяет конфигурацию на опасные настройки.
+service ScannerService {
+  rpc Scan(ScanRequest) returns (ScanResponse);
+}
+
+enum Format {
+  FORMAT_UNSPECIFIED = 0;
+  FORMAT_JSON = 1;
+  FORMAT_YAML = 2;
+}
+
+message ScanRequest {
+  bytes config = 1;
+  Format format = 2;
+}
+
+enum Level {
+  LEVEL_UNSPECIFIED = 0;
+  LEVEL_LOW = 1;
+  LEVEL_MEDIUM = 2;
+  LEVEL_HIGH = 3;
+}
+
+message Issue {
+  string rule_id = 1;
+  Level level = 2;
+  string field = 3;
+  string message = 4;
+  string recommendation = 5;
+}
+
+message ScanResponse {
+  repeated Issue issues = 1;
+  bool has_issues = 2;
+}

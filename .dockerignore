@@ -1,0 +1,4 @@
+bin/
+tmp_smoke/
+*.md
+.git/
